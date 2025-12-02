@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fareed Ahmad - Interactive Portfolio</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- Font Awesome for Icons (No SVG Graphics used directly) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+    <!-- Custom Styles for Chart Containers and Specific Layouts -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #fdfbf7; /* Warm neutral background */
+            color: #1f2937;
+        }
+
+        /* Chart Container Strict Styling */
+        .chart-container {
+            position: relative;
+            width: 100%;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .chart-height-sm {
+            height: 300px;
+            max-height: 300px;
+        }
+
+        .chart-height-lg {
+            height: 400px;
+            max-height: 400px;
+        }
+
+        /* Smooth Transitions */
+        .transition-all-300 {
+            transition: all 0.3s ease-in-out;
+        }
+
+        .card-hover:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+
+        /* Hide scrollbar for clean look in horizontal scroll areas if any */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+
+    <!-- Chosen Palette: Warm Professional -->
+    <!-- Primary: #fdfbf7 (Cream/Paper White), Text: #1f2937 (Slate 800), Accent: #3b82f6 (Blue 500 - React Blue), Secondary: #e5e7eb (Gray 200) -->
+
+    <!-- Application Structure Plan: 
+         1. Header/Hero: Immediate identity, contact, and "Key Stats" for quick scanning.
+         2. Skills Analytics: Radar chart to visualize technical balance (Frontend vs Backend vs Tools).
+         3. Project Nexus: Interactive grid where clicking a project updates a detailed view and a specific "Tech Stack Distribution" chart for that project.
+         4. Timeline: Vertical timeline for Education and Experience.
+         5. Footer: Contact CTA.
+         This structure moves from "Who I am" -> "What I can do" -> "Proof of work" -> "History".
+    -->
+
+    <!-- Visualization & Content Choices:
+         1. Skills Radar Chart -> Goal: Inform/Compare -> Chart.js Radar -> Shows balance of skills (Strong Frontend, emerging Backend).
+         2. Project Tech Stack Doughnut -> Goal: Inform -> Chart.js Doughnut -> Visualizes composition of specific projects (e.g., how much React vs CSS).
+         3. Timeline Layout -> Goal: Change -> HTML/CSS Timeline -> Clearly shows chronological progression.
+         4. Interactive Filters -> Goal: Organize -> JS Logic -> Allows users to find projects by specific skills.
+         
+         CONFIRMATION: NO SVG graphics used as standalone files. NO Mermaid JS used. Icons via FontAwesome font.
+    -->
+</head>
+<body class="antialiased selection:bg-blue-100 selection:text-blue-900">
+
+    <!-- Navigation / Header -->
+    <header class="bg-white shadow-sm sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
+            <div class="flex items-center space-x-3">
+                <div class="h-10 w-10 bg-blue-600 rounded-lg flex items-center justify-center text-white font-bold text-xl">
+                    FA
+                </div>
+                <div>
+                    <h1 class="text-xl font-bold text-gray-900">Fareed Ahmad</h1>
+                    <p class="text-xs text-gray-500 font-semibold uppercase tracking-wide">Front-End Developer</p>
+                </div>
+            </div>
+            <nav class="hidden md:flex space-x-8">
+                <a href="#overview" class="text-gray-500 hover:text-blue-600 font-medium transition-colors">Overview</a>
+                <a href="#skills" class="text-gray-500 hover:text-blue-600 font-medium transition-colors">Skills</a>
+                <a href="#projects" class="text-gray-500 hover:text-blue-600 font-medium transition-colors">Projects</a>
+                <a href="#timeline" class="text-gray-500 hover:text-blue-600 font-medium transition-colors">Timeline</a>
+            </nav>
+            <a href="mailto:fareedah689@gmail.com" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md text-sm font-medium transition-colors">
+                Contact Me
+            </a>
+        </div>
+    </header>
+
+    <!-- Main Content Wrapper -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-12">
+
+        <!-- SECTION 1: HERO & SUMMARY -->
+        <section id="overview" class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <!-- Text Content -->
+            <div class="lg:col-span-2 space-y-6">
+                <div class="bg-white p-8 rounded-2xl shadow-sm border border-gray-100">
+                    <h2 class="text-3xl font-bold text-gray-900 mb-4">React.js Specialist & <br/><span class="text-blue-600">Front-End Developer</span></h2>
+                    <p class="text-gray-600 leading-relaxed text-lg mb-6">
+                        Highly motivated and results-driven Front-End Developer with a strong foundation in <span class="font-semibold text-gray-800">React.js, JavaScript (ES6+), HTML5, and CSS3</span>. Proven ability to develop responsive, dynamic, and user-centric web applications. Seeking to leverage specialized knowledge in state management (Redux) and RESTful API integration.
+                    </p>
+                    
+                    <div class="flex flex-wrap gap-3">
+                        <span class="px-3 py-1 bg-blue-50 text-blue-700 text-sm font-medium rounded-full">React.js</span>
+                        <span class="px-3 py-1 bg-blue-50 text-blue-700 text-sm font-medium rounded-full">Redux</span>
+                        <span class="px-3 py-1 bg-blue-50 text-blue-700 text-sm font-medium rounded-full">RESTful APIs</span>
+                        <span class="px-3 py-1 bg-blue-50 text-blue-700 text-sm font-medium rounded-full">Firebase</span>
+                        <span class="px-3 py-1 bg-blue-50 text-blue-700 text-sm font-medium rounded-full">Tailwind CSS</span>
+                    </div>
+
+                    <div class="mt-8 pt-6 border-t border-gray-100 flex flex-wrap gap-6 text-sm text-gray-500">
+                        <div class="flex items-center">
+                            <i class="fa-solid fa-location-dot mr-2 text-blue-500"></i> New Delhi, 110019
+                        </div>
+                        <div class="flex items-center">
+                            <i class="fa-solid fa-phone mr-2 text-blue-500"></i> 7453096402
+                        </div>
+                        <div class="flex items-center">
+                            <i class="fa-brands fa-linkedin mr-2 text-blue-500"></i> linkedin.com/in/FareedAhmad12
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Key Stats Cards -->
+            <div class="lg:col-span-1 grid grid-cols-1 gap-4">
+                <div class="bg-blue-600 p-6 rounded-2xl shadow-lg text-white card-hover">
+                    <div class="flex items-start justify-between">
+                        <div>
+                            <p class="text-blue-100 text-sm font-medium mb-1">Total Experience</p>
+                            <h3 class="text-4xl font-bold">5+</h3>
+                            <p class="text-blue-200 text-xs mt-1">Months Professional Exp.</p>
+                        </div>
+                        <div class="p-3 bg-blue-500 rounded-lg">
+                            <i class="fa-solid fa-briefcase text-2xl"></i>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 card-hover">
+                    <div class="flex items-start justify-between">
+                        <div>
+                            <p class="text-gray-500 text-sm font-medium mb-1">Key Projects</p>
+                            <h3 class="text-4xl font-bold text-gray-900">3</h3>
+                            <p class="text-gray-400 text-xs mt-1">Full Stack & Frontend</p>
+                        </div>
+                        <div class="p-3 bg-gray-50 rounded-lg">
+                            <i class="fa-solid fa-code text-2xl text-blue-600"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 card-hover">
+                    <div class="flex items-start justify-between">
+                        <div>
+                            <p class="text-gray-500 text-sm font-medium mb-1">Education</p>
+                            <h3 class="text-2xl font-bold text-gray-900">MCA</h3>
+                            <p class="text-gray-400 text-xs mt-1">Master of Computer Applications</p>
+                        </div>
+                        <div class="p-3 bg-gray-50 rounded-lg">
+                            <i class="fa-solid fa-graduation-cap text-2xl text-blue-600"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 2: SKILLS ANALYTICS -->
+        <section id="skills" class="scroll-mt-24">
+            <div class="mb-6">
+                <h2 class="text-2xl font-bold text-gray-900">Technical Proficiency</h2>
+                <p class="text-gray-500 mt-2">A visual breakdown of my technical capabilities across different domains.</p>
+            </div>
+
+            <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                    <!-- Chart Container -->
+                    <div class="w-full flex flex-col items-center">
+                         <div class="chart-container chart-height-lg max-w-lg">
+                            <canvas id="skillsRadarChart"></canvas>
+                        </div>
+                    </div>
+                    
+                    <!-- Text/Legend Context -->
+                    <div class="space-y-6">
+                        <div>
+                            <h3 class="text-lg font-bold text-gray-900 mb-2">Core Competencies</h3>
+                            <p class="text-sm text-gray-600">
+                                My primary focus is on the <span class="font-bold text-blue-600">React Ecosystem</span>. I specialize in building responsive UIs with React.js and managing complex state with Redux.
+                            </p>
+                        </div>
+
+                        <!-- Skill Progress Bars (Static Data Representation) -->
+                        <div class="space-y-4">
+                            <div>
+                                <div class="flex justify-between mb-1">
+                                    <span class="text-sm font-medium text-gray-700">Frontend (React, JS, HTML/CSS)</span>
+                                    <span class="text-sm font-medium text-blue-600">Advanced</span>
+                                </div>
+                                <div class="w-full bg-gray-200 rounded-full h-2">
+                                    <div class="bg-blue-600 h-2 rounded-full" style="width: 90%"></div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="flex justify-between mb-1">
+                                    <span class="text-sm font-medium text-gray-700">State Management (Redux)</span>
+                                    <span class="text-sm font-medium text-blue-600">Proficient</span>
+                                </div>
+                                <div class="w-full bg-gray-200 rounded-full h-2">
+                                    <div class="bg-blue-500 h-2 rounded-full" style="width: 80%"></div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="flex justify-between mb-1">
+                                    <span class="text-sm font-medium text-gray-700">Backend Integration (Firebase, SQL)</span>
+                                    <span class="text-sm font-medium text-blue-600">Intermediate</span>
+                                </div>
+                                <div class="w-full bg-gray-200 rounded-full h-2">
+                                    <div class="bg-blue-400 h-2 rounded-full" style="width: 65%"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 3: PROJECT NEXUS -->
+        <section id="projects" class="scroll-mt-24">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
+                <div>
+                    <h2 class="text-2xl font-bold text-gray-900">Featured Projects</h2>
+                    <p class="text-gray-500 mt-2">Select a project to view architectural details and tech stack distribution.</p>
+                </div>
+                <!-- Filter Buttons -->
+                <div class="flex space-x-2 bg-white p-1 rounded-lg border border-gray-200 shadow-sm" id="projectFilters">
+                    <button class="px-4 py-1.5 text-sm font-medium rounded-md bg-blue-100 text-blue-700 transition-colors" onclick="filterProjects('all', this)">All</button>
+                    <button class="px-4 py-1.5 text-sm font-medium rounded-md text-gray-600 hover:bg-gray-50 transition-colors" onclick="filterProjects('React', this)">React</button>
+                    <button class="px-4 py-1.5 text-sm font-medium rounded-md text-gray-600 hover:bg-gray-50 transition-colors" onclick="filterProjects('Redux', this)">Redux</button>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+                <!-- Project List (Left) -->
+                <div class="lg:col-span-5 space-y-4" id="projectList">
+                    <!-- Projects injected via JS -->
+                </div>
+
+                <!-- Project Details (Right) -->
+                <div class="lg:col-span-7">
+                    <div id="projectDetailPanel" class="bg-white rounded-2xl shadow-lg border border-gray-100 p-6 h-full sticky top-24 transition-all-300">
+                        <!-- Dynamic Content loads here -->
+                        <div class="flex flex-col items-center justify-center h-full text-center text-gray-400 py-12">
+                            <i class="fa-regular fa-folder-open text-4xl mb-4"></i>
+                            <p>Select a project to view details</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 4: TIMELINE (Experience & Education) -->
+        <section id="timeline" class="scroll-mt-24">
+            <h2 class="text-2xl font-bold text-gray-900 mb-8">Professional Journey</h2>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+                <!-- Experience Column -->
+                <div>
+                    <h3 class="flex items-center text-lg font-bold text-gray-800 mb-6">
+                        <span class="w-8 h-8 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center mr-3">
+                            <i class="fa-solid fa-briefcase text-sm"></i>
+                        </span>
+                        Work Experience
+                    </h3>
+                    <div class="relative border-l-2 border-blue-100 ml-4 pl-8 space-y-10 pb-4">
+                        <!-- Item 1 -->
+                        <div class="relative">
+                            <div class="absolute -left-[41px] bg-blue-600 h-5 w-5 rounded-full border-4 border-white shadow-sm"></div>
+                            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider bg-blue-50 px-2 py-1 rounded">May 2024 – Oct 2024</span>
+                            <h4 class="text-lg font-bold text-gray-900 mt-2">Front-End Developer</h4>
+                            <p class="text-sm font-medium text-gray-600">Sofyrus Technologies | Aligarh</p>
+                            <p class="text-gray-600 text-sm mt-3 leading-relaxed">
+                                Contributed to front-end development projects, translating design mockups into functional web pages using HTML, CSS, and JavaScript. Gained foundational industry experience in a professional agile environment.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Education Column -->
+                <div>
+                    <h3 class="flex items-center text-lg font-bold text-gray-800 mb-6">
+                        <span class="w-8 h-8 rounded-full bg-green-100 text-green-600 flex items-center justify-center mr-3">
+                            <i class="fa-solid fa-graduation-cap text-sm"></i>
+                        </span>
+                        Education
+                    </h3>
+                    <div class="relative border-l-2 border-green-100 ml-4 pl-8 space-y-10 pb-4">
+                        <!-- Edu 1 -->
+                        <div class="relative">
+                            <div class="absolute -left-[41px] bg-green-500 h-5 w-5 rounded-full border-4 border-white shadow-sm"></div>
+                            <span class="text-xs font-bold text-green-600 uppercase tracking-wider bg-green-50 px-2 py-1 rounded">2024</span>
+                            <h4 class="text-lg font-bold text-gray-900 mt-2">Master of Computer Applications (MCA)</h4>
+                            <p class="text-sm font-medium text-gray-600">A.K.T.U | Aligarh</p>
+                        </div>
+                        <!-- Edu 2 -->
+                        <div class="relative">
+                            <div class="absolute -left-[41px] bg-green-400 h-4 w-4 rounded-full border-4 border-white shadow-sm"></div>
+                            <span class="text-xs font-bold text-green-600 uppercase tracking-wider bg-green-50 px-2 py-1 rounded">2023</span>
+                            <h4 class="text-lg font-bold text-gray-900 mt-2">PGDCP</h4>
+                            <p class="text-sm font-medium text-gray-600">A.M.U | Aligarh</p>
+                            <p class="text-xs text-gray-500 mt-1">Post Graduate Diploma in Computer Applications</p>
+                        </div>
+                        <!-- Edu 3 -->
+                        <div class="relative">
+                            <div class="absolute -left-[41px] bg-green-300 h-4 w-4 rounded-full border-4 border-white shadow-sm"></div>
+                            <span class="text-xs font-bold text-green-600 uppercase tracking-wider bg-green-50 px-2 py-1 rounded">2021</span>
+                            <h4 class="text-lg font-bold text-gray-900 mt-2">Bachelor of Computer Applications (BCA)</h4>
+                            <p class="text-sm font-medium text-gray-600">A.M.U | Aligarh</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FOOTER -->
+        <footer class="bg-gray-900 rounded-2xl text-white p-8 md:p-12 mt-12">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-6 md:mb-0 text-center md:text-left">
+                    <h2 class="text-2xl font-bold">Ready to collaborate?</h2>
+                    <p class="text-gray-400 mt-2">Available for Front-End Developer roles.</p>
+                    <div class="flex space-x-4 mt-4 justify-center md:justify-start">
+                        <span class="text-sm bg-gray-800 px-3 py-1 rounded-full text-gray-300">English</span>
+                        <span class="text-sm bg-gray-800 px-3 py-1 rounded-full text-gray-300">Hindi</span>
+                        <span class="text-sm bg-gray-800 px-3 py-1 rounded-full text-gray-300">Urdu</span>
+                    </div>
+                </div>
+                <div class="flex flex-col space-y-3">
+                    <a href="mailto:fareedah689@gmail.com" class="inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-blue-700 bg-white hover:bg-gray-50 transition-all">
+                        <i class="fa-solid fa-envelope mr-2"></i> Send Email
+                    </a>
+                    <div class="text-center text-gray-500 text-sm">
+                        +91 7453096402
+                    </div>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 mt-8 pt-8 text-center text-gray-500 text-sm flex flex-col items-center">
+                <p>&copy; 2025 Fareed Ahmad. All rights reserved.</p>
+                <div class="mt-4 flex space-x-4 text-xs">
+                     <span><i class="fa-solid fa-baseball-bat-ball mr-1"></i> Cricket</span>
+                     <span><i class="fa-solid fa-camera mr-1"></i> Photography</span>
+                     <span><i class="fa-solid fa-book mr-1"></i> Reading</span>
+                </div>
+            </div>
+        </footer>
+
+    </main>
+
+    <!-- Application Logic -->
+    <script>
+        // --- DATA STORE ---
+        const portfolioData = {
+            projects: [
+                {
+                    id: 1,
+                    title: "Food Ordering Application",
+                    category: "Full Stack",
+                    description: "Engineered a dynamic, full-featured food ordering platform. Implemented secure user checkout and order customization workflows, significantly improving the user experience for complex transactions.",
+                    tech: ["React.js", "Redux", "Firebase", "Axios", "RESTful APIs"],
+                    achievement: "Significantly improved UX for complex transactions through optimized state management.",
+                    chartData: [45, 25, 20, 10], // React, Redux, Firebase, Others
+                    chartLabels: ['React', 'Redux', 'Firebase', 'APIs/CSS']
+                },
+                {
+                    id: 2,
+                    title: "DMW Medical Group App",
+                    category: "Frontend",
+                    description: "Developed a multi-page medical application from scratch, successfully implementing a 100% responsive UI design across all major device types (mobile, tablet, desktop). Focused on best practices and cross-browser compatibility.",
+                    tech: ["React.js", "HTML5", "CSS3", "JavaScript"],
+                    achievement: "Achieved 100% responsive design consistency across mobile, tablet, and desktop.",
+                    chartData: [40, 30, 20, 10], // React, HTML, CSS, JS
+                    chartLabels: ['React', 'HTML5', 'CSS3', 'JS']
+                },
+                {
+                    id: 3,
+                    title: "Password Manager Utility",
+                    category: "Utility",
+                    description: "Created a dynamic web utility utilizing Vite for speed. Features comprehensive CRUD (Create, Read, Update, Delete) functionality for managing sensitive data securely in local state.",
+                    tech: ["React.js", "Vite", "Local State", "CSS"],
+                    achievement: "Implemented full CRUD operations with efficient local state handling.",
+                    chartData: [50, 15, 25, 10], // React, Vite, Logic, CSS
+                    chartLabels: ['React', 'Vite', 'Logic', 'CSS']
+                }
+            ],
+            skills: {
+                labels: ['React.js', 'JavaScript', 'HTML/CSS', 'Redux', 'SQL', 'Firebase', 'Python'],
+                data: [90, 85, 95, 80, 60, 65, 50] // Estimated proficiency based on "Specialist" vs "Knowledge"
+            }
+        };
+
+        // --- STATE MANAGEMENT ---
+        let currentProjectChart = null;
+        let selectedProjectId = 1;
+
+        // --- INITIALIZATION ---
+        document.addEventListener('DOMContentLoaded', () => {
+            initSkillsChart();
+            renderProjectList('all'); // Initial render
+            selectProject(1); // Select first project by default
+        });
+
+        // --- SKILLS CHART (Radar) ---
+        function initSkillsChart() {
+            const ctx = document.getElementById('skillsRadarChart').getContext('2d');
+            
+            new Chart(ctx, {
+                type: 'radar',
+                data: {
+                    labels: portfolioData.skills.labels,
+                    datasets: [{
+                        label: 'Proficiency Level',
+                        data: portfolioData.skills.data,
+                        fill: true,
+                        backgroundColor: 'rgba(59, 130, 246, 0.2)', // Blue-500 with opacity
+                        borderColor: 'rgb(59, 130, 246)',
+                        pointBackgroundColor: 'rgb(59, 130, 246)',
+                        pointBorderColor: '#fff',
+                        pointHoverBackgroundColor: '#fff',
+                        pointHoverBorderColor: 'rgb(59, 130, 246)'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        r: {
+                            angleLines: { color: '#e5e7eb' },
+                            grid: { color: '#e5e7eb' },
+                            pointLabels: {
+                                font: { size: 12, family: "'Inter', sans-serif", weight: '600' },
+                                color: '#374151'
+                            },
+                            ticks: { display: false, max: 100 }
+                        }
+                    },
+                    plugins: {
+                        legend: { display: false }
+                    }
+                }
+            });
+        }
+
+        // --- PROJECT LOGIC ---
+
+        function renderProjectList(filter) {
+            const listContainer = document.getElementById('projectList');
+            listContainer.innerHTML = ''; // Clear current
+
+            const filteredProjects = filter === 'all' 
+                ? portfolioData.projects 
+                : portfolioData.projects.filter(p => p.tech.some(t => t.includes(filter)));
+
+            filteredProjects.forEach(project => {
+                const card = document.createElement('div');
+                // Styling for project card
+                const isSelected = project.id === selectedProjectId;
+                card.className = `p-4 rounded-xl border cursor-pointer transition-all duration-200 group ${isSelected ? 'border-blue-500 bg-blue-50 ring-1 ring-blue-500' : 'border-gray-200 bg-white hover:border-blue-300 hover:shadow-md'}`;
+                card.onclick = () => selectProject(project.id);
+
+                card.innerHTML = `
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <h4 class="font-bold text-gray-900 group-hover:text-blue-600 transition-colors">${project.title}</h4>
+                            <p class="text-xs text-gray-500 mt-1 mb-2 uppercase tracking-wide font-semibold">${project.category}</p>
+                        </div>
+                        <span class="text-gray-300 group-hover:text-blue-500">
+                            <i class="fa-solid fa-chevron-right text-sm"></i>
+                        </span>
+                    </div>
+                    <div class="flex flex-wrap gap-2 mt-2">
+                        ${project.tech.slice(0, 3).map(t => `<span class="text-xs bg-gray-100 text-gray-600 px-2 py-0.5 rounded border border-gray-200">${t}</span>`).join('')}
+                    </div>
+                `;
+                listContainer.appendChild(card);
+            });
+        }
+
+        function filterProjects(filter, btnElement) {
+            // Update UI buttons
+            const buttons = document.querySelectorAll('#projectFilters button');
+            buttons.forEach(b => {
+                b.className = 'px-4 py-1.5 text-sm font-medium rounded-md text-gray-600 hover:bg-gray-50 transition-colors';
+            });
+            btnElement.className = 'px-4 py-1.5 text-sm font-medium rounded-md bg-blue-100 text-blue-700 transition-colors';
+
+            renderProjectList(filter);
+        }
+
+        function selectProject(id) {
+            selectedProjectId = id;
+            const project = portfolioData.projects.find(p => p.id === id);
+            
+            // Re-render list to update selection highlight
+            // Find the currently active filter to maintain state
+            const activeBtn = document.querySelector('#projectFilters button.bg-blue-100');
+            const currentFilter = activeBtn ? activeBtn.innerText : 'all';
+            // Note: In a complex app we'd separate render and selection logic better, 
+            // but for this scope, simple re-render or class toggle is fine.
+            // Let's just toggle classes manually for performance
+            document.querySelectorAll('#projectList > div').forEach((el, index) => {
+                 // Logic assumes order matches. A data-attribute approach is safer generally.
+                 // Ideally we redraw to be safe or use data-id attributes
+            });
+            // Re-rendering list is easiest to ensure state consistency
+            renderProjectList(currentFilter === 'All' ? 'all' : currentFilter); 
+
+            // Update Detail Panel
+            const panel = document.getElementById('projectDetailPanel');
+            panel.innerHTML = `
+                <div class="animate-fade-in">
+                    <div class="flex items-center space-x-3 mb-4">
+                        <div class="p-2 bg-blue-100 rounded-lg text-blue-600">
+                            <i class="fa-solid fa-laptop-code"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-900">${project.title}</h3>
+                    </div>
+                    
+                    <p class="text-gray-600 leading-relaxed mb-6 text-sm border-b border-gray-100 pb-4">
+                        ${project.description}
+                    </p>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <h4 class="text-sm font-bold text-gray-800 mb-3 uppercase tracking-wider">Tech Stack</h4>
+                            <div class="flex flex-wrap gap-2 mb-6">
+                                ${project.tech.map(t => `<span class="px-3 py-1 bg-white border border-gray-200 rounded-full text-xs font-medium text-gray-700 shadow-sm">${t}</span>`).join('')}
+                            </div>
+
+                            <h4 class="text-sm font-bold text-gray-800 mb-2 uppercase tracking-wider">Key Achievement</h4>
+                            <div class="bg-green-50 border-l-4 border-green-500 p-3 rounded-r-md">
+                                <p class="text-sm text-green-800 font-medium">"${project.achievement}"</p>
+                            </div>
+                        </div>
+
+                        <!-- Mini Chart for Tech Distribution -->
+                        <div class="bg-gray-50 rounded-xl p-4 flex flex-col items-center justify-center">
+                            <h5 class="text-xs text-gray-500 mb-2 font-semibold">Composition</h5>
+                            <div class="chart-container" style="height: 180px; max-height: 180px; width: 100%;">
+                                <canvas id="projectTechChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            // Initialize the mini chart
+            initProjectChart(project);
+        }
+
+        function initProjectChart(project) {
+            if (currentProjectChart) {
+                currentProjectChart.destroy();
+            }
+
+            const ctx = document.getElementById('projectTechChart').getContext('2d');
+            currentProjectChart = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: project.chartLabels,
+                    datasets: [{
+                        data: project.chartData,
+                        backgroundColor: [
+                            '#3b82f6', // blue-500
+                            '#10b981', // emerald-500
+                            '#f59e0b', // amber-500
+                            '#94a3b8'  // slate-400
+                        ],
+                        borderWidth: 0,
+                        hoverOffset: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: true,
+                            position: 'bottom',
+                            labels: {
+                                boxWidth: 10,
+                                font: { size: 10 }
+                            }
+                        }
+                    },
+                    cutout: '65%'
+                }
+            });
+        }
+
+    </script>
+</body>
+</html>
